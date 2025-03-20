@@ -17,25 +17,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String fName;
-    private String lName;
+    private String firstName;
+    private String lastName;
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RSVP> rsvpEvents;
 
     // Constructor to initialize user without id (used for new users)
-    public User(String fName, String lName, String email) {
-        this.fName = fName;
-        this.lName = lName;
+    public User(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 
     // Constructor to initialize user with id (used for fetching from DB)
-    public User(int id, String fName, String lName, String email) {
+    public User(int id, String firstName, String lastName, String email) {
         this.id = id;
-        this.fName = fName;
-        this.lName = lName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 }

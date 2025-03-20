@@ -3,6 +3,7 @@ package com.planit.enterprise;
 import com.planit.enterprise.dto.EventDTO;
 import com.planit.enterprise.dto.RSVPDTO;
 import com.planit.enterprise.dto.UserDTO;
+import com.planit.enterprise.entity.User;
 import com.planit.enterprise.service.interfaces.IEventService;
 import com.planit.enterprise.service.interfaces.IRSVPService;
 import com.planit.enterprise.service.interfaces.IUserService;
@@ -36,7 +37,11 @@ class PlanItApplicationTests {
     @BeforeEach
     void setup() {
         // Save test user
-        userId = userService.registerUser("Debbie", "Doe", "debbiedoe@email.com");
+        User user = new User();
+        user.setFirstName("Debbie");
+        user.setLastName("Doe");
+        user.setEmail("debbiedoe@email.com");
+        userId = userService.registerUser(user);
         testUser = userService.fetchUserByID(userId);
 
         // Save test event
@@ -58,15 +63,15 @@ class PlanItApplicationTests {
     void fetchUserByID_returnsCorrectUser() {
         UserDTO user = userService.fetchUserByID(userId);
         assertNotNull(user);
-        assertEquals("Debbie", user.getFName());
-        assertEquals("Doe", user.getLName());
+        assertEquals("Debbie", user.getFirstName());
+        assertEquals("Doe", user.getLastName());
     }
 
     @Test
     void fetchUserByEmail_returnsCorrectUser() {
         UserDTO user = userService.fetchUserByEmail("debbiedoe@email.com");
         assertNotNull(user);
-        assertEquals("Debbie", user.getFName());
+        assertEquals("Debbie", user.getFirstName());
     }
 
     @Test
@@ -77,10 +82,14 @@ class PlanItApplicationTests {
 
     @Test
     void registerUser_createsNewUserSuccessfully() {
-        int newUserId = userService.registerUser("Jane", "Smith", "janesmith@email.com");
+        User user = new User();
+        user.setFirstName("Jane");
+        user.setLastName("Smith");
+        user.setEmail("janesmith@email.com");
+        int newUserId = userService.registerUser(user);
         assertTrue(newUserId > 0);
         UserDTO newUser = userService.fetchUserByID(newUserId);
-        assertEquals("Jane", newUser.getFName());
+        assertEquals("Jane", newUser.getFirstName());
     }
 
     @Test

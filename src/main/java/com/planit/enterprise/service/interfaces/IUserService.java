@@ -1,6 +1,7 @@
 package com.planit.enterprise.service.interfaces;
 
 import com.planit.enterprise.dto.UserDTO;
+import com.planit.enterprise.entity.User;
 
 public interface IUserService {
     /**
@@ -26,10 +27,8 @@ public interface IUserService {
 
     /**
      * Adds additional user to database
-     * @param fname new user's first name
-     * @param lname new user's last name
-     * @param email new user's email address
+     * @param user the new user
      * @return created user's ID upon successful creation, -1 otherwise
      */
-    int registerUser(String fname, String lname, String email);
+    int registerUser(User user);
 }
