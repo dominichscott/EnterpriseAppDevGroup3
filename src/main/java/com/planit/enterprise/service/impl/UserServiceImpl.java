@@ -21,7 +21,7 @@ public class UserServiceImpl implements IUserService {
     public UserDTO fetchUserByID(int id) {
         User user = userRepository.findById(id);
         if (user != null) {
-            return new UserDTO(user.getId(), user.getFName(), user.getLName(), user.getEmail());
+            return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
         }
         return null; // Handle the case where the user is not found
     }
@@ -30,7 +30,7 @@ public class UserServiceImpl implements IUserService {
     public UserDTO fetchUserByEmail(String email) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
-            return new UserDTO(user.getId(), user.getFName(), user.getLName(), user.getEmail());
+            return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
         }
         return null; // Return null if no user found
     }
@@ -41,9 +41,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public int registerUser(String fName, String lName, String email) {
-        User user = new User(fName, lName, email);
-        userRepository.save(user);
-        return user.getId(); // Return the user ID after saving
+    public int registerUser(User user) {
+        User newUser = user;
+        userRepository.save(newUser);
+        return newUser.getId(); // Return the user ID after saving
     }
 }

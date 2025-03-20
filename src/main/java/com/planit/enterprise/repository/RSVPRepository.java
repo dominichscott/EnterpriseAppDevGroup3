@@ -14,4 +14,6 @@ public interface RSVPRepository extends JpaRepository<RSVP, Integer> {
     List<RSVP> findByEventId(int eventId);
 
     RSVP findByUserIdAndEventId(int userId, int eventId);
+
+    RSVP save(RSVP rsvp);
 }

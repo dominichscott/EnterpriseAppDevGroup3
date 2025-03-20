@@ -1,50 +1,18 @@
 package com.planit.enterprise.dto;
 
-public class UserDTO {
+import lombok.Data;
+
+public @Data class UserDTO {
     private int id;
-    private String fName;
-    private String lName;
+    private String firstName;
+    private String lastName;
     private String email;
 
     // Constructor with parameters
-    public UserDTO(int id, String fName, String lName, String email) {
+    public UserDTO(int id, String firstName, String lastName, String email) {
         this.id = id;
-        this.fName = fName;
-        this.lName = lName;
-        this.email = email;
-    }
-
-
-    // Getters and setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFName() {
-        return fName;
-    }
-
-    public void setFName(String fName) {
-        this.fName = fName;
-    }
-
-    public String getLName() {
-        return lName;
-    }
-
-    public void setLName(String lName) {
-        this.lName = lName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 }
