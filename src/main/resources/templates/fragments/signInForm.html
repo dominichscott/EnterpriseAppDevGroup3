@@ -5,7 +5,7 @@
 
             <p style="color: black; font-size: 1.5em; line-height: 3.0;">Sign In</p>
 
-            <form action="#" th:Action="@{/signIn}" th:object="${userDTO}" method = "GET"><br>
+            <form action="#" th:action="@{/signIn}" th:object="${userDTO}" method = "GET"><br>
                 <label style="color: black; font-size: 1.2em; line-height: 3.0;">Email
                   <input type="text" name="email" th:field="*{email}"/></label>
                 <button style="line-height: 3.0; margin-left: 20px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;
