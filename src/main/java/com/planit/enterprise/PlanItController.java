@@ -3,6 +3,7 @@ package com.planit.enterprise;
 import com.planit.enterprise.dto.EventDTO;
 import com.planit.enterprise.dto.UserDTO;
 import com.planit.enterprise.service.interfaces.IEventService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,8 @@ public class PlanItController {
     /**
      * Handle the root (/) endpoint and return a start page
      */
+    @Autowired
+    IEventService eventService;
 
     @RequestMapping("/")
     public String signIn(UserDTO userDTO){
@@ -38,8 +41,12 @@ public class PlanItController {
     }
 
     /* Sends user to createEvent page when Create Event button is pressed */
+
+
     @RequestMapping("/createEvent")
-    public String createEvent(EventDTO event){
+    public String createEvent(Model model) {
+        EventDTO eventDTO = new EventDTO();
+        model.addAttribute("eventDTO", eventDTO);
         return "createEvent";
     }
 
