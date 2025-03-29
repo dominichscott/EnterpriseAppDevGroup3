@@ -2,63 +2,91 @@ package com.planit.enterprise;
 
 import com.planit.enterprise.dto.EventDTO;
 import com.planit.enterprise.dto.UserDTO;
+import com.planit.enterprise.dto.RSVPDTO;
 import com.planit.enterprise.service.interfaces.IEventService;
+import com.planit.enterprise.service.interfaces.IUserService;
+import com.planit.enterprise.service.interfaces.IRSVPService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 public class PlanItController {
-    /**
-     * Handle the root (/) endpoint and return a start page
-     */
 
-    @RequestMapping("/")
-    public String signIn(UserDTO userDTO){
+    @Autowired
+    private IEventService eventService;
+
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
+    private IRSVPService rsvpService;
+
+
+    @GetMapping("/")
+    public String signIn(Model model) {
+        model.addAttribute("userDTO", new UserDTO());
         return "signIn";
     }
 
-    @RequestMapping("/signIn")
-    public String start(UserDTO userDTO){
+
+    @PostMapping("/signIn")
+    public String signInSubmit(UserDTO userDTO, Model model) {
+        // Validate user login
+        UserDTO user = userService.fetchUserByEmail(userDTO.getEmail());
+        if (user != null) {
+            model.addAttribute("userDTO", user);
+            return "redirect:/start";
+        } else {
+            model.addAttribute("error", "Invalid email. Please try again.");
+            return "signIn";
+        }
+    }
+
+    @RequestMapping("/start")
+    public String homePage(Model model) {
+        List<EventDTO> events = eventService.fetchAllEvents();
+        model.addAttribute("events", events);
         return "start";
     }
 
-    @RequestMapping("/saveEvent")
-    public String index(Model model){
-          EventDTO event = new EventDTO();
-          event.setName("Test Event");
-          event.setDate("1/1/2025");
-          model.addAttribute(event);
-        return "start";
-    }
-
-    /* Sends user to createEvent page when Create Event button is pressed */
     @RequestMapping("/createEvent")
-    public String createEvent(EventDTO event){
+    public String createEvent(Model model) {
+        model.addAttribute("eventDTO", new EventDTO());
         return "createEvent";
     }
 
-    /* @GetMapping("/event")
-    /* @ResponseBody
-    /* public List<Event> getAllEvents() { return IEventService.getAllEvents(); }
-     */
-/*
-    @PostMapping(value="/event", consumes="application/json", produces="application/json")
-    @ResponseBody
-    public EventDTO createEvent(@ResponseBody EventDTO event){
-        EventDTO newEvent = null;
-        try{
-            newEvent = eventService.save(event);
-        } catch (Exception e) {
+    @PostMapping("/saveEvent")
+    public String saveEvent(EventDTO event) {
+        eventService.createEvent(event.getName(), event.getDate(), event.getLocation());
+        return "redirect:/start";
+    }
+}
 
-        }
-        return newEvent;
+
+//views not yet created
+
+    /*
+
+    @GetMapping("/rsvps")
+    public String viewUserRSVPs(Model model, int userId) {
+        model.addAttribute("rsvps", rsvpService.fetchAllByUserID(userId));
+        return "rsvpList";
     }
 
- */
-}
+    @PostMapping("/rsvp")
+    public String rsvpToEvent(int eventId, int userId) {
+        rsvpService.createRSVP(eventId, userId);
+        return "redirect:/start";
+    }
+
+    @PostMapping("/updateRSVP")
+    public String updateRSVP(int eventId, int userId, int status) {
+        rsvpService.updateStatus(eventId, userId, status);
+        return "redirect:/rsvps?userId=" + userId;
+    }
+}*/

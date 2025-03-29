@@ -1,9 +1,17 @@
 package com.planit.enterprise.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class UserDTO {
+    // Getters and setters
+    @Setter
+    @Getter
     private int id;
     private String fName;
     private String lName;
+    @Setter
+    @Getter
     private String email;
 
     // Constructor with parameters
@@ -14,15 +22,8 @@ public class UserDTO {
         this.email = email;
     }
 
+    public UserDTO() {}
 
-    // Getters and setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getFName() {
         return fName;
@@ -40,12 +41,5 @@ public class UserDTO {
         this.lName = lName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
 
