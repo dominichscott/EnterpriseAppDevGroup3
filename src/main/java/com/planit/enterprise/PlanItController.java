@@ -187,6 +187,23 @@ public class PlanItController {
         
         return "createEvent";
     }
+
+    // needs to be made functional for access and use of the RSVP page
+    @RequestMapping("/RSVP")
+    public String RSVP(Model model){
+        EventDTO event = new EventDTO();
+        model.addAttribute("eventDTO", event);
+
+        // Add Guest user to model
+        UserDTO guestUser = new UserDTO();
+        guestUser.setId(100);
+        guestUser.setEmail("guest@example.com");
+        guestUser.setFName("Guest");
+        guestUser.setLName("User");
+        model.addAttribute("user", guestUser);
+
+        return "RSVP";
+    }
     
     /**
      * Helper method to get upcoming events for a user
